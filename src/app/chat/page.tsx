@@ -68,7 +68,7 @@ export default async function Page() {
 					<Card key={id}>
 						<CardHeader>
 							<CardTitle>{title}</CardTitle>
-							<CardDescription>{description}</CardDescription>
+							{description && <CardDescription>{description}</CardDescription>}
 						</CardHeader>
 						<CardContent>
 							<Button asChild>
