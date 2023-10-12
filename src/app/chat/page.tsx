@@ -23,6 +23,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { addNewChatRoom } from "@/app/chat/actions";
 
+export const runtime = "edge";
+
 export default async function Page() {
 	const result = await db.select().from(rooms).all();
 
