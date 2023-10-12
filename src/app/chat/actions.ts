@@ -22,6 +22,6 @@ export const addNewChatRoom = async (formData: FormData) => {
 
 	await db.insert(rooms).values({ slug, title, description });
 
-	revalidatePath("/");
+	revalidatePath("/chat");
 	redirect(`/chat/${slug}`);
 };
