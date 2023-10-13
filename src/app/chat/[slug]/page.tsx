@@ -132,7 +132,7 @@ export default async function ChatRoom({ params }: Props) {
 					{allMessages.map((message) => (
 						<ChatMessage
 							user={message.user.name}
-							content={message.content}
+							content={message.content ?? ''}
 							fromMe={message.fromMe}
 							key={message.id}
 						/>

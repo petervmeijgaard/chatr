@@ -6,13 +6,13 @@ export const rooms = sqliteTable("rooms", {
 	title: text("title"),
 	description: text("description"),
 	slug: text("slug").unique(),
-	userId: text("user_id"),
+	userId: text("user_id").notNull(),
 });
 
 export const messages = sqliteTable("messages", {
 	id: integer("id").primaryKey(),
 	roomId: integer("room_id").references(() => rooms.id),
-	userId: text("user_id"),
+	userId: text("user_id").notNull(),
 	content: text("content"),
 	timestamp: text("timestamp").default(sql`CURRENT_TIMESTAMP`),
 });
