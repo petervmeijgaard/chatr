@@ -24,8 +24,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { addNewChatRoom } from "./actions";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
-export const runtime = "edge";
-
 export default async function Page() {
 	const result = await db.select().from(rooms).all();
 
