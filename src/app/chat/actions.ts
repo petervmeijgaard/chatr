@@ -5,7 +5,7 @@ import { rooms } from "@/db/schema";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import slugify from "slugify";
+import { slugify } from "@/lib/utils";
 
 const schema = z.object({
 	title: z.string().min(5),
@@ -18,7 +18,7 @@ export const addNewChatRoom = async (formData: FormData) => {
 		description: formData.get("description"),
 	});
 
-	const slug = slugify(title, { strict: true });
+	const slug = slugify(title);
 
 	await db.insert(rooms).values({ slug, title, description });
 
