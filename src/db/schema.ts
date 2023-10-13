@@ -5,4 +5,5 @@ export const rooms = sqliteTable("rooms", {
 	title: text("title"),
 	description: text("description"),
 	slug: text("slug").unique(),
+	userId: text("user_id"),
 });

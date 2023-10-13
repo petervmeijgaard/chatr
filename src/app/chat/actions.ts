@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { slugify } from "@/lib/utils";
+import { auth } from "@clerk/nextjs";
 
 const schema = z.object({
 	title: z.string().min(5),
@@ -13,6 +14,12 @@ const schema = z.object({
 });
 
 export const addNewChatRoom = async (formData: FormData) => {
+	const { userId } = auth();
+
+	if (!userId) {
+		redirect("/sign-in");
+	}
+
 	const { title, description } = schema.parse({
 		title: formData.get("title"),
 		description: formData.get("description"),
@@ -20,7 +27,7 @@ export const addNewChatRoom = async (formData: FormData) => {
 
 	const slug = slugify(title);
 
-	await db.insert(rooms).values({ slug, title, description });
+	await db.insert(rooms).values({ slug, title, description, userId });
 
 	revalidatePath("/chat");
 	redirect(`/chat/${slug}`);
