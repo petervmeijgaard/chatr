@@ -16,6 +16,8 @@ export const metadata: Metadata = {
 	description: "Chat with your friends!",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
 		<ClerkProvider>
