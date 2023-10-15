@@ -11,9 +11,6 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { api } from "@/trpc/server";
 import { CreateChatRoomDialog } from "@/app/chat/_components/create-chat-room-dialog";
 
-export const runtime = "edge";
-export const dynamic = "force-dynamic";
-
 export default async function Page() {
 	const chatRooms = await api.chatRoom.listChatRooms.query();
 
