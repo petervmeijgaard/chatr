@@ -4,7 +4,10 @@ import { Inter } from "next/font/google";
 import { PropsWithChildren } from "react";
 import cn from "classnames";
 import { ThemeProvider } from "@/components/theme-provider";
+import { TRPCReactProvider } from "@/trpc/react";
+
 import { ClerkProvider } from "@clerk/nextjs";
+import { headers } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,14 +21,16 @@ export default function RootLayout({ children }: PropsWithChildren) {
 		<ClerkProvider>
 			<html lang="en">
 				<body className={cn(inter.className, "flex min-h-screen min-w-full")}>
-					<ThemeProvider
-						attribute="class"
-						defaultTheme="system"
-						enableSystem
-						disableTransitionOnChange
-					>
-						{children}
-					</ThemeProvider>
+					<TRPCReactProvider headers={headers()}>
+						<ThemeProvider
+							attribute="class"
+							defaultTheme="system"
+							enableSystem
+							disableTransitionOnChange
+						>
+							{children}
+						</ThemeProvider>
+					</TRPCReactProvider>
 				</body>
 			</html>
 		</ClerkProvider>

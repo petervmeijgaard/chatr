@@ -1,5 +1,5 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 
 export const rooms = sqliteTable("rooms", {
 	id: integer("id").primaryKey(),
@@ -9,6 +9,10 @@ export const rooms = sqliteTable("rooms", {
 	userId: text("user_id").notNull(),
 });
 
+export const roomsRelations = relations(rooms, ({ many }) => ({
+	messages: many(messages),
+}));
+
 export const messages = sqliteTable("messages", {
 	id: integer("id").primaryKey(),
 	roomId: integer("room_id").references(() => rooms.id),
@@ -16,3 +20,10 @@ export const messages = sqliteTable("messages", {
 	content: text("content"),
 	timestamp: text("timestamp").default(sql`CURRENT_TIMESTAMP`),
 });
+
+export const messagesRelations = relations(messages, ({ one }) => ({
+	room: one(rooms, {
+		fields: [messages.roomId],
+		references: [rooms.id],
+	}),
+}));
