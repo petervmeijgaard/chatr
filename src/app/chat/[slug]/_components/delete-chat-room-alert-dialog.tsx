@@ -35,8 +35,7 @@ export function DeleteChatRoomAlertDialog() {
 
 	const deleteChatRoom = api.chatRoom.delete.useMutation({
 		onSuccess() {
-			router.push(`/chat`);
-
+			router.push("/chat");
 			router.refresh();
 		},
 	});

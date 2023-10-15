@@ -5,9 +5,9 @@ import { auth, UserButton } from "@clerk/nextjs";
 
 import { api } from "@/trpc/server";
 import { ChatMessage } from "./_components/chat-message";
-import { DeleteChatRoomAlertDialog } from "@/app/chat/[slug]/_components/delete-chat-room-alert-dialog";
+import { DeleteChatRoomAlertDialog } from "./_components/delete-chat-room-alert-dialog";
 import { notFound } from "next/navigation";
-import { AddChatMessageForm } from "@/app/chat/[slug]/_components/add-chat-message-form";
+import { AddChatMessageForm } from "./_components/add-chat-message-form";
 
 type Props = {
 	params: {
