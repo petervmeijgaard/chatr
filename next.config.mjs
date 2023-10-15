@@ -1,4 +1,8 @@
 import "./src/env.mjs";
+import withPlugins from "./next-plugins/with-plugins.mjs";
+import withSentry from "./next-plugins/with-sentry.mjs";
+
+const plugins = [withSentry];
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,4 +13,4 @@ const nextConfig = {
 	},
 };
 
-export default nextConfig;
+export default withPlugins(plugins, nextConfig);
