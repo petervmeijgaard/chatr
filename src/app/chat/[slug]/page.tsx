@@ -18,7 +18,7 @@ type Props = {
 export default async function ChatRoom({ params }: Props) {
 	const { userId } = auth();
 
-	const chatRoom = await api.chatRoom.getBySlugWithMessages.query(params);
+	const chatRoom = await api.chatRoom.getBySlug.query(params);
 
 	if (!chatRoom) {
 		return notFound();

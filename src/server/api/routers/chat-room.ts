@@ -69,7 +69,7 @@ export const chatRoomRouter = createTRPCRouter({
 			await ctx.db.delete(rooms).where(eq(rooms.id, room.id));
 		}),
 
-	getBySlugWithMessages: protectedProcedure
+	getBySlug: protectedProcedure
 		.input(z.object({ slug: z.string() }))
 		.query(async ({ ctx, input: { slug } }) => {
 			const chatRoom = await ctx.db.query.rooms.findFirst({

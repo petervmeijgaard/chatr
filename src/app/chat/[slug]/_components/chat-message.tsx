@@ -1,8 +1,7 @@
 import { RouterOutputs } from "@/trpc/shared";
 import { auth, clerkClient } from "@clerk/nextjs";
 
-type Props =
-	RouterOutputs["chatRoom"]["getBySlugWithMessages"]["messages"][number];
+type Props = RouterOutputs["chatRoom"]["getBySlug"]["messages"][number];
 
 export async function ChatMessage({ content, userId }: Props) {
 	const currentUser = auth();
