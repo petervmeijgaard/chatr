@@ -16,6 +16,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import { pusher } from "@/client/pusher";
 
 export function CreateChatRoomDialog() {
 	const router = useRouter();
@@ -31,7 +32,12 @@ export function CreateChatRoomDialog() {
 	});
 
 	const onSubmit = (data: CreateChatRoomSchema) => {
-		createChatRoom.mutate(data);
+		createChatRoom.mutate({
+			...data,
+			metaData: {
+				socketId: pusher.connection.socket_id,
+			},
+		});
 	};
 
 	return (

@@ -10,6 +10,7 @@ import {
 } from "@/lib/validators";
 import { eq } from "drizzle-orm";
 import { pusher } from "@/server/pusher";
+import { metadata } from "@/app/layout";
 
 export const chatRoomRouter = createTRPCRouter({
 	listChatRooms: publicProcedure.query(async ({ ctx }) => {
@@ -47,8 +48,6 @@ export const chatRoomRouter = createTRPCRouter({
 				});
 			}
 
-			console.log({ metaData });
-
 			await pusher.trigger(
 				`private-chat-room__${slug}`,
 				"new-chat-message",
@@ -63,18 +62,25 @@ export const chatRoomRouter = createTRPCRouter({
 
 	create: protectedProcedure
 		.input(createChatRoomSchema)
-		.mutation(async ({ ctx, input: { title, description } }) => {
+		.mutation(async ({ ctx, input: { title, description, metaData } }) => {
 			const { userId } = ctx.auth;
 			const slug = slugify(title);
 
-			await ctx.db.insert(rooms).values({ slug, title, description, userId });
+			const [newChatRoom] = await ctx.db
+				.insert(rooms)
+				.values({ slug, title, description, userId })
+				.returning();
+
+			await pusher.trigger("chat-rooms", "chat-room-created", newChatRoom, {
+				socket_id: metaData?.socketId,
+			});
 
 			return slug;
 		}),
 
 	delete: protectedProcedure
 		.input(deleteChatRoomSchema)
-		.mutation(async ({ ctx, input: { slug } }) => {
+		.mutation(async ({ ctx, input: { slug, metaData } }) => {
 			const room = await ctx.db.query.rooms.findFirst({
 				where: (rooms, { eq, and }) =>
 					and(eq(rooms.slug, slug), eq(rooms.userId, ctx.auth.userId)),
@@ -90,6 +96,10 @@ export const chatRoomRouter = createTRPCRouter({
 
 			await ctx.db.delete(messages).where(eq(messages.roomId, room.id));
 			await ctx.db.delete(rooms).where(eq(rooms.id, room.id));
+
+			await pusher.trigger("chat-rooms", "chat-room-deleted", room, {
+				socket_id: metaData?.socketId,
+			});
 		}),
 
 	getBySlug: protectedProcedure
