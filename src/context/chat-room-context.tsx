@@ -1,16 +1,16 @@
 "use client";
 
 import {
-	PropsWithChildren,
 	createContext,
-	useContext,
-	useEffect,
-	useState,
-	useMemo,
+	PropsWithChildren,
 	useCallback,
+	useContext,
+	useMemo,
+	useState,
 } from "react";
-import { pusher } from "@/client/pusher";
 import { Message } from "@/server/db/schema";
+import { usePusherChannel } from "@/hooks/use-pusher-channel";
+import { usePusherEvent } from "@/hooks/use-pusher-event";
 
 type ChatRoomContextType = {
 	messages: Array<Message>;
@@ -37,6 +37,10 @@ export function ChatRoomProvider({
 		setMessages((curr) => [...curr, newMessage]);
 	}, []);
 
+	const channel = usePusherChannel(`private-chat-room__${slug}`);
+
+	usePusherEvent(channel, "new-chat-message", addMessage);
+
 	const value = useMemo(
 		() => ({
 			messages,
@@ -44,16 +48,6 @@ export function ChatRoomProvider({
 		}),
 		[addMessage, messages],
 	);
-
-	useEffect(() => {
-		const channel = pusher.subscribe(`private-chat-room__${slug}`);
-
-		channel.bind("new-chat-message", addMessage);
-
-		return () => {
-			pusher.unsubscribe(`private-chat-room__${slug}`);
-		};
-	}, [addMessage, slug]);
 
 	return (
 		<ChatRoomContext.Provider value={value}>
