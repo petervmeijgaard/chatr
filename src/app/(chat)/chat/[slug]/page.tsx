@@ -27,7 +27,7 @@ export default async function ChatRoom({ params }: Props) {
 				</h1>
 				<div className="flex flex-row items-center gap-4">
 					<Button asChild>
-						<Link href={{ pathname: "/chat" }} className="flex flex-row gap-2">
+						<Link href={{ pathname: "/" }} className="flex flex-row gap-2">
 							<ChevronLeft />
 							Back to chat rooms
 						</Link>

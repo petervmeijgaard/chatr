@@ -2,11 +2,7 @@
 
 import { useZodForm } from "@/lib/zod-form";
 import { useParams, useRouter } from "next/navigation";
-import {
-	addChatMessageSchema,
-	DeleteChatRoomSchema,
-	deleteChatRoomSchema,
-} from "@/lib/validators";
+import { DeleteChatRoomSchema, deleteChatRoomSchema } from "@/lib/validators";
 import { api } from "@/trpc/react";
 import { Input } from "@/components/ui/input";
 import {
@@ -39,7 +35,7 @@ export function DeleteChatRoomAlertDialog() {
 
 	const deleteChatRoom = api.chatRoom.delete.useMutation({
 		onSuccess() {
-			router.push("/chat");
+			router.push("/");
 			router.refresh();
 		},
 	});
