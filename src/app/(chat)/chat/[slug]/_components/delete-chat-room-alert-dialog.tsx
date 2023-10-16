@@ -28,9 +28,7 @@ export function DeleteChatRoomAlertDialog() {
 	const router = useRouter();
 	const form = useZodForm({
 		schema: deleteChatRoomSchema,
-		defaultValues: {
-			slug,
-		},
+		defaultValues: { slug },
 	});
 
 	const deleteChatRoom = api.chatRoom.delete.useMutation({

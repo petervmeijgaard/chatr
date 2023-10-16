@@ -16,9 +16,7 @@ export function AddChatMessageForm() {
 	const router = useRouter();
 	const form = useZodForm({
 		schema: addChatMessageSchema,
-		defaultValues: {
-			slug,
-		},
+		defaultValues: { slug },
 	});
 
 	const addChatMessage = api.chatRoom.addChatMessage.useMutation({
@@ -38,7 +36,7 @@ export function AddChatMessageForm() {
 			className="flex flex-row items-start gap-2 rounded rounded-t-none border p-4"
 			onSubmit={form.handleSubmit(onSubmit)}
 		>
-			<input type="hidden" value={slug} {...form.register("slug")} />
+			<input type="hidden" {...form.register("slug")} />
 			<Input
 				placeholder="Enter your message..."
 				{...form.register("message")}
