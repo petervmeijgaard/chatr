@@ -8,7 +8,6 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { RouterOutputs } from "@/trpc/shared";
-import { cn } from "@/lib/utils";
 
 type Props = RouterOutputs["chatRoom"]["listChatRooms"][number];
 
@@ -33,11 +32,11 @@ function ProjectCardSkeleton() {
 		<Card>
 			<CardHeader>
 				<CardTitle className="flex items-center justify-between">
-					<span className={cn("flex-1 animate-pulse bg-muted")}>&nbsp;</span>
+					<span className="flex-1 animate-pulse bg-muted">&nbsp;</span>
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<Button disabled className={cn("w-[120px] animate-pulse bg-muted")}>
+				<Button disabled className="w-[120px] animate-pulse bg-muted">
 					&nbsp;
 				</Button>
 			</CardContent>
