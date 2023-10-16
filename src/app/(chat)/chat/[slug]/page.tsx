@@ -4,9 +4,10 @@ import { ChevronLeft } from "lucide-react";
 import { auth, UserButton } from "@clerk/nextjs";
 
 import { api } from "@/trpc/server";
-import { ChatMessage } from "./_components/chat-message";
 import { DeleteChatRoomAlertDialog } from "./_components/delete-chat-room-alert-dialog";
 import { AddChatMessageForm } from "./_components/add-chat-message-form";
+import { ChatMessages } from "./_components/chat-messages";
+import React from "react";
 
 type Props = {
 	params: {
@@ -37,11 +38,8 @@ export default async function ChatRoom({ params }: Props) {
 				</div>
 			</header>
 			<div className="flex flex-1 flex-col">
-				<div className="flex flex-1 flex-col place-items-start gap-6 rounded-md rounded-b-none border border-b-0 p-6">
-					{chatRoom.messages.map((message) => (
-						<ChatMessage {...message} key={message.id} />
-					))}
-				</div>
+				<ChatMessages messages={chatRoom.messages} />
+
 				<AddChatMessageForm />
 			</div>
 		</>

@@ -1,14 +1,14 @@
+"use client";
+
 import { RouterOutputs } from "@/trpc/shared";
-import { auth, clerkClient } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 
 type Props = RouterOutputs["chatRoom"]["getBySlug"]["messages"][number];
 
 export async function ChatMessage({ content, userId }: Props) {
-	const currentUser = auth();
-	const user = await clerkClient.users.getUser(userId);
+	const currentUser = useAuth();
 
 	const isCurrentUser = currentUser.userId === userId;
-	const username = user.username ?? `${user.firstName} ${user.lastName}`;
 
 	if (isCurrentUser) {
 		return (
@@ -22,9 +22,6 @@ export async function ChatMessage({ content, userId }: Props) {
 
 	return (
 		<div>
-			{username && (
-				<span className="text-sm text-muted-foreground">{username}</span>
-			)}
 			<div className="rounded rounded-tl-none bg-secondary px-4 py-2 text-secondary-foreground">
 				<span>{content}</span>
 			</div>

@@ -6,6 +6,7 @@ import { useZodForm } from "@/lib/zod-form";
 import { AddChatMessageSchema, addChatMessageSchema } from "@/lib/validators";
 import { api } from "@/trpc/react";
 import { useParams, useRouter } from "next/navigation";
+import { pusher } from "@/client/pusher";
 
 type Params = {
 	slug: string;
@@ -37,6 +38,11 @@ export function AddChatMessageForm() {
 			onSubmit={form.handleSubmit(onSubmit)}
 		>
 			<input type="hidden" {...form.register("slug")} />
+			<input
+				type="hidden"
+				value={pusher.connection.socket_id}
+				{...form.register("metaData.socketId")}
+			/>
 			<Input
 				placeholder="Enter your message..."
 				{...form.register("message")}

@@ -3,6 +3,11 @@ import { z } from "zod";
 export const addChatMessageSchema = z.object({
 	slug: z.string(),
 	message: z.string().trim().min(1),
+	metaData: z
+		.object({
+			socketId: z.string().optional(),
+		})
+		.optional(),
 });
 
 export type AddChatMessageSchema = z.infer<typeof addChatMessageSchema>;

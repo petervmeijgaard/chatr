@@ -9,6 +9,7 @@ import {
 	deleteChatRoomSchema,
 } from "@/lib/validators";
 import { eq } from "drizzle-orm";
+import { pusher } from "@/server/pusher";
 
 export const chatRoomRouter = createTRPCRouter({
 	listChatRooms: publicProcedure.query(async ({ ctx }) => {
@@ -17,7 +18,7 @@ export const chatRoomRouter = createTRPCRouter({
 
 	addChatMessage: protectedProcedure
 		.input(addChatMessageSchema)
-		.mutation(async ({ ctx, input: { slug, message } }) => {
+		.mutation(async ({ ctx, input: { slug, message, metaData } }) => {
 			const room = await ctx.db.query.rooms.findFirst({
 				where: (rooms, { eq, and }) =>
 					and(eq(rooms.slug, slug), eq(rooms.userId, ctx.auth.userId)),
@@ -31,11 +32,23 @@ export const chatRoomRouter = createTRPCRouter({
 				});
 			}
 
-			await ctx.db.insert(messages).values({
-				roomId: room.id,
-				content: message,
-				userId: ctx.auth.userId,
-			});
+			const [insertedChatMessage] = await ctx.db
+				.insert(messages)
+				.values({
+					roomId: room.id,
+					content: message,
+					userId: ctx.auth.userId,
+				})
+				.returning();
+
+			await pusher.trigger(
+				`private-chat-room__${slug}`,
+				"new-chat-message",
+				insertedChatMessage,
+				{
+					socket_id: metaData?.socketId,
+				},
+			);
 		}),
 
 	create: protectedProcedure
