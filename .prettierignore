@@ -3,5 +3,4 @@ pnpm-lock.yaml
 
 ## Directories
 .next
-.turbo
 node_modules
