@@ -5,8 +5,9 @@ import { ButtonWithLoader } from "@/components/ui/button";
 import { useZodForm } from "@/lib/zod-form";
 import { AddChatMessageSchema, addChatMessageSchema } from "@/lib/validators";
 import { api } from "@/trpc/react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { pusher } from "@/client/pusher";
+import { useChatRoom } from "@/context/chat-room-context";
 
 type Params = {
 	slug: string;
@@ -14,22 +15,27 @@ type Params = {
 
 export function AddChatMessageForm() {
 	const { slug } = useParams<Params>();
-	const router = useRouter();
+	const chatRoom = useChatRoom();
 	const form = useZodForm({
 		schema: addChatMessageSchema,
 		defaultValues: { slug },
 	});
 
 	const addChatMessage = api.chatRoom.addChatMessage.useMutation({
-		onSuccess() {
+		onSuccess(newMessage) {
 			form.reset();
 
-			router.refresh();
+			chatRoom.addMessage(newMessage);
 		},
 	});
 
 	const onSubmit = (data: AddChatMessageSchema) => {
-		addChatMessage.mutate(data);
+		addChatMessage.mutate({
+			...data,
+			metaData: {
+				socketId: pusher.connection.socket_id,
+			},
+		});
 	};
 
 	return (
@@ -38,11 +44,6 @@ export function AddChatMessageForm() {
 			onSubmit={form.handleSubmit(onSubmit)}
 		>
 			<input type="hidden" {...form.register("slug")} />
-			<input
-				type="hidden"
-				value={pusher.connection.socket_id}
-				{...form.register("metaData.socketId")}
-			/>
 			<Input
 				placeholder="Enter your message..."
 				{...form.register("message")}

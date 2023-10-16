@@ -20,8 +20,7 @@ export const chatRoomRouter = createTRPCRouter({
 		.input(addChatMessageSchema)
 		.mutation(async ({ ctx, input: { slug, message, metaData } }) => {
 			const room = await ctx.db.query.rooms.findFirst({
-				where: (rooms, { eq, and }) =>
-					and(eq(rooms.slug, slug), eq(rooms.userId, ctx.auth.userId)),
+				where: (rooms, { eq }) => eq(rooms.slug, slug),
 				columns: { id: true },
 			});
 
@@ -41,6 +40,15 @@ export const chatRoomRouter = createTRPCRouter({
 				})
 				.returning();
 
+			if (!insertedChatMessage) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Could not create chat message",
+				});
+			}
+
+			console.log({ metaData });
+
 			await pusher.trigger(
 				`private-chat-room__${slug}`,
 				"new-chat-message",
@@ -49,6 +57,8 @@ export const chatRoomRouter = createTRPCRouter({
 					socket_id: metaData?.socketId,
 				},
 			);
+
+			return insertedChatMessage;
 		}),
 
 	create: protectedProcedure

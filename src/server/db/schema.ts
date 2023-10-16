@@ -15,6 +15,8 @@ export const rooms = sqliteTable(
 	}),
 );
 
+export type Room = typeof rooms.$inferSelect;
+
 export const roomsRelations = relations(rooms, ({ many }) => ({
 	messages: many(messages),
 }));
@@ -30,6 +32,8 @@ export const messages = sqliteTable("messages", {
 		.notNull()
 		.default(sql`CURRENT_TIMESTAMP`),
 });
+
+export type Message = typeof messages.$inferSelect;
 
 export const messagesRelations = relations(messages, ({ one }) => ({
 	room: one(rooms, {

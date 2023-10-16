@@ -8,6 +8,7 @@ import { DeleteChatRoomAlertDialog } from "./_components/delete-chat-room-alert-
 import { AddChatMessageForm } from "./_components/add-chat-message-form";
 import { ChatMessages } from "./_components/chat-messages";
 import React from "react";
+import { ChatRoomProvider } from "@/context/chat-room-context";
 
 type Props = {
 	params: {
@@ -15,13 +16,13 @@ type Props = {
 	};
 };
 
-export default async function ChatRoom({ params }: Props) {
+export default async function ChatRoom({ params: { slug } }: Props) {
 	const { userId } = auth();
 
-	const chatRoom = await api.chatRoom.getBySlug.query(params);
+	const chatRoom = await api.chatRoom.getBySlug.query({ slug });
 
 	return (
-		<>
+		<ChatRoomProvider slug={slug} messages={chatRoom.messages}>
 			<header className="flex flex-row place-content-between">
 				<h1 className="text-3xl font-bold">
 					Welcome to chatroom {`"${chatRoom.title}"`}
@@ -38,10 +39,10 @@ export default async function ChatRoom({ params }: Props) {
 				</div>
 			</header>
 			<div className="flex flex-1 flex-col">
-				<ChatMessages messages={chatRoom.messages} />
+				<ChatMessages />
 
 				<AddChatMessageForm />
 			</div>
-		</>
+		</ChatRoomProvider>
 	);
 }

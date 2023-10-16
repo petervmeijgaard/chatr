@@ -7,9 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { RouterOutputs } from "@/trpc/shared";
-
-type Props = RouterOutputs["chatRoom"]["listChatRooms"][number];
+import { Room as Props } from "@/server/db/schema";
 
 function ChatRoomCard({ title, description, slug }: Props) {
 	return (

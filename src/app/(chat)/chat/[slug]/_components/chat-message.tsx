@@ -5,7 +5,7 @@ import { useAuth } from "@clerk/nextjs";
 
 type Props = RouterOutputs["chatRoom"]["getBySlug"]["messages"][number];
 
-export async function ChatMessage({ content, userId }: Props) {
+export function ChatMessage({ content, userId }: Props) {
 	const currentUser = useAuth();
 
 	const isCurrentUser = currentUser.userId === userId;
