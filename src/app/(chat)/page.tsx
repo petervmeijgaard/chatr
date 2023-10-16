@@ -1,15 +1,8 @@
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { api } from "@/trpc/server";
-import { CreateChatRoomDialog } from "@/app/(chat)/_components/create-chat-room-dialog";
+import { CreateChatRoomDialog } from "./_components/create-chat-room-dialog";
+import { ChatRoomCard } from "./_components/chat-room-card";
 
 export default async function Page() {
 	const chatRooms = await api.chatRoom.listChatRooms.query();
@@ -33,18 +26,8 @@ export default async function Page() {
 				</div>
 			</header>
 			<div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
-				{chatRooms.map(({ id, slug, title, description }) => (
-					<Card key={id}>
-						<CardHeader>
-							<CardTitle>{title}</CardTitle>
-							{description && <CardDescription>{description}</CardDescription>}
-						</CardHeader>
-						<CardContent>
-							<Button asChild>
-								<Link href={`/chat/${slug}`}>Join 5 others</Link>
-							</Button>
-						</CardContent>
-					</Card>
+				{chatRooms.map((chatRoom) => (
+					<ChatRoomCard {...chatRoom} key={chatRoom.id} />
 				))}
 
 				{!chatRooms.length && <div>No chatrooms found!</div>}
