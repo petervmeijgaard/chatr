@@ -6,7 +6,6 @@ import { auth, UserButton } from "@clerk/nextjs";
 import { api } from "@/trpc/server";
 import { ChatMessage } from "./_components/chat-message";
 import { DeleteChatRoomAlertDialog } from "./_components/delete-chat-room-alert-dialog";
-import { notFound } from "next/navigation";
 import { AddChatMessageForm } from "./_components/add-chat-message-form";
 
 type Props = {
@@ -19,10 +18,6 @@ export default async function ChatRoom({ params }: Props) {
 	const { userId } = auth();
 
 	const chatRoom = await api.chatRoom.getBySlug.query(params);
-
-	if (!chatRoom) {
-		return notFound();
-	}
 
 	return (
 		<>
