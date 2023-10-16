@@ -5,9 +5,9 @@ export const rooms = sqliteTable(
 	"rooms",
 	{
 		id: integer("id").primaryKey(),
-		title: text("title"),
+		title: text("title").notNull(),
 		description: text("description"),
-		slug: text("slug").unique(),
+		slug: text("slug").notNull().unique(),
 		userId: text("user_id").notNull(),
 	},
 	(table) => ({
@@ -21,10 +21,14 @@ export const roomsRelations = relations(rooms, ({ many }) => ({
 
 export const messages = sqliteTable("messages", {
 	id: integer("id").primaryKey(),
-	roomId: integer("room_id").references(() => rooms.id),
+	roomId: integer("room_id")
+		.notNull()
+		.references(() => rooms.id),
 	userId: text("user_id").notNull(),
-	content: text("content"),
-	timestamp: text("timestamp").default(sql`CURRENT_TIMESTAMP`),
+	content: text("content").notNull(),
+	timestamp: text("timestamp")
+		.notNull()
+		.default(sql`CURRENT_TIMESTAMP`),
 });
 
 export const messagesRelations = relations(messages, ({ one }) => ({
