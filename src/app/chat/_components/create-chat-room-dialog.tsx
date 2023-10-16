@@ -5,7 +5,7 @@ import { api } from "@/trpc/react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonWithLoader } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { CreateChatRoomSchema, createChatRoomSchema } from "@/lib/validators";
 import {
@@ -67,7 +67,9 @@ export function CreateChatRoomDialog() {
 							{...form.register("description")}
 						/>
 					</div>
-					<Button type="submit">Save changes</Button>
+					<ButtonWithLoader type="submit" isLoading={createChatRoom.isLoading}>
+						Save changes
+					</ButtonWithLoader>
 				</form>
 			</DialogContent>
 		</Dialog>

@@ -2,7 +2,11 @@
 
 import { useZodForm } from "@/lib/zod-form";
 import { useParams, useRouter } from "next/navigation";
-import { DeleteChatRoomSchema, deleteChatRoomSchema } from "@/lib/validators";
+import {
+	addChatMessageSchema,
+	DeleteChatRoomSchema,
+	deleteChatRoomSchema,
+} from "@/lib/validators";
 import { api } from "@/trpc/react";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,7 +20,7 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonWithLoader } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 
 type Params = {
@@ -66,7 +70,12 @@ export function DeleteChatRoomAlertDialog() {
 					<form onSubmit={form.handleSubmit(onSubmit)}>
 						<Input type="hidden" {...form.register("slug")} />
 						<AlertDialogAction asChild>
-							<Button type="submit">Continue</Button>
+							<ButtonWithLoader
+								type="submit"
+								isLoading={deleteChatRoom.isLoading}
+							>
+								Continue
+							</ButtonWithLoader>
 						</AlertDialogAction>
 					</form>
 				</AlertDialogFooter>

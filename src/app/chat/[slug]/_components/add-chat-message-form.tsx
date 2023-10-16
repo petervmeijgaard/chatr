@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { ButtonWithLoader } from "@/components/ui/button";
 import { useZodForm } from "@/lib/zod-form";
 import { AddChatMessageSchema, addChatMessageSchema } from "@/lib/validators";
 import { api } from "@/trpc/react";
@@ -43,7 +43,9 @@ export function AddChatMessageForm() {
 				placeholder="Enter your message..."
 				{...form.register("message")}
 			/>
-			<Button type="submit">Submit</Button>
+			<ButtonWithLoader type="submit" isLoading={addChatMessage.isLoading}>
+				Submit
+			</ButtonWithLoader>
 		</form>
 	);
 }
