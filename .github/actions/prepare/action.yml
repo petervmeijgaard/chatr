@@ -1,0 +1,17 @@
+name: Prepare
+description: Prepares the repo for a typical CI job
+runs:
+  using: composite
+  steps:
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v2
+
+    - name: Setup Node environment
+      uses: actions/setup-node@v3
+      with:
+        cache: pnpm
+        node-version: "18"
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+      shell: bash

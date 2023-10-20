@@ -1,0 +1,16 @@
+name: Format
+on: [push, pull_request]
+jobs:
+  format:
+    name: Format code
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare environment
+        uses: ./.github/actions/prepare
+
+      - name: Format code
+        run: pnpm format

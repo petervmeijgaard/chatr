@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"format": "prettier --check --cache .",
+		"format": "prettier --check --cache --ignore-unknown \"**/*\"",
 		"db:push": "drizzle-kit push:sqlite"
 	},
 	"dependencies": {
