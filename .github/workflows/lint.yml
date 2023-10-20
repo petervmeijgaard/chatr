@@ -1,0 +1,16 @@
+name: Lint
+on: [push, pull_request]
+jobs:
+  lint:
+    name: Lint code
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare environment
+        uses: ./.github/actions/prepare
+
+      - name: Lint code
+        run: pnpm lint
