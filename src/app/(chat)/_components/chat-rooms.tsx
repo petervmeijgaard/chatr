@@ -3,15 +3,14 @@
 import { useCallback, useState } from "react";
 import { ChatRoomCard } from "@/app/(chat)/_components/chat-room-card";
 import { Room } from "@/server/db/schema";
-import { usePusherChannel } from "@/hooks/use-pusher-channel";
-import { usePusherEvent } from "@/hooks/use-pusher-event";
+import { useChannel, useEvent } from "@vivid-web/pusher-react";
 
 type Props = {
 	rooms: Array<Room>;
 };
 
 export function ChatRooms({ rooms: initialState }: Props) {
-	const channel = usePusherChannel("chat-rooms");
+	const channel = useChannel("chat-rooms");
 
 	const [chatRooms, setChatRooms] = useState<Array<Room>>(initialState);
 
@@ -23,9 +22,9 @@ export function ChatRooms({ rooms: initialState }: Props) {
 		setChatRooms((curr) => curr.filter((item) => item.id !== chatRoom.id));
 	}, []);
 
-	usePusherEvent(channel, "chat-room-created", addChatRoom);
+	useEvent(channel, "chat-room-created", addChatRoom);
 
-	usePusherEvent(channel, "chat-room-deleted", removeChatRoom);
+	useEvent(channel, "chat-room-deleted", removeChatRoom);
 
 	if (!chatRooms.length) {
 		return <div>No chatrooms found!</div>;

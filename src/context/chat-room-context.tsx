@@ -9,8 +9,7 @@ import {
 	useState,
 } from "react";
 import { Message } from "@/server/db/schema";
-import { usePusherChannel } from "@/hooks/use-pusher-channel";
-import { usePusherEvent } from "@/hooks/use-pusher-event";
+import { useEvent, usePrivateChannel } from "@vivid-web/pusher-react";
 
 type ChatRoomContextType = {
 	messages: Array<Message>;
@@ -37,9 +36,9 @@ export function ChatRoomProvider({
 		setMessages((curr) => [...curr, newMessage]);
 	}, []);
 
-	const channel = usePusherChannel(`private-chat-room__${slug}`);
+	const channel = usePrivateChannel(`chat-room__${slug}`);
 
-	usePusherEvent(channel, "new-chat-message", addMessage);
+	useEvent(channel, "new-chat-message", addMessage);
 
 	const value = useMemo(
 		() => ({

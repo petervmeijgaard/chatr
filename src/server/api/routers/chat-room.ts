@@ -10,7 +10,6 @@ import {
 } from "@/lib/validators";
 import { eq } from "drizzle-orm";
 import { pusher } from "@/server/pusher";
-import { metadata } from "@/app/layout";
 
 export const chatRoomRouter = createTRPCRouter({
 	listChatRooms: publicProcedure.query(async ({ ctx }) => {

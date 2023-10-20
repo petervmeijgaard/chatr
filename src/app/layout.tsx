@@ -8,6 +8,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 
 import { ClerkProvider } from "@clerk/nextjs";
 import { headers } from "next/headers";
+import { PusherProvider } from "@/components/pusher-provider";
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -28,14 +29,16 @@ export default function RootLayout({ children }: PropsWithChildren) {
 			<html lang="en">
 				<body className={cn(inter.className, "flex min-h-screen min-w-full")}>
 					<TRPCReactProvider headers={headers()}>
-						<ThemeProvider
-							attribute="class"
-							defaultTheme="system"
-							enableSystem
-							disableTransitionOnChange
-						>
-							{children}
-						</ThemeProvider>
+						<PusherProvider>
+							<ThemeProvider
+								attribute="class"
+								defaultTheme="system"
+								enableSystem
+								disableTransitionOnChange
+							>
+								{children}
+							</ThemeProvider>
+						</PusherProvider>
 					</TRPCReactProvider>
 				</body>
 			</html>
