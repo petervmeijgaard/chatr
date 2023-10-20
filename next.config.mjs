@@ -11,6 +11,14 @@ const nextConfig = {
 		typedRoutes: true,
 		serverActions: true,
 	},
+	eslint: {
+		// Do not lint during builds. This is being done in a separate GitHub Action
+		ignoreDuringBuilds: true
+	},
+	typescript: {
+		// Do not type check during builds. This is being done in a separate GitHub action
+		ignoreBuildErrors: true,
+	}
 };
 
 export default withPlugins(plugins, nextConfig);
