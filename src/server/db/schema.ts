@@ -25,7 +25,7 @@ export const messages = sqliteTable("messages", {
 	id: integer("id").primaryKey(),
 	roomId: integer("room_id")
 		.notNull()
-		.references(() => rooms.id),
+		.references(() => rooms.id, { onDelete: "cascade" }),
 	userId: text("user_id").notNull(),
 	content: text("content").notNull(),
 	timestamp: text("timestamp")

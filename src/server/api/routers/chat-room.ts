@@ -91,7 +91,6 @@ export const chatRoomRouter = createTRPCRouter({
 				});
 			}
 
-			await ctx.db.delete(messages).where(eq(messages.roomId, room.id));
 			await ctx.db.delete(rooms).where(eq(rooms.id, room.id));
 
 			await pusher.trigger("chat-rooms", "chat-room-deleted", room, {
