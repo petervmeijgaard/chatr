@@ -25,7 +25,7 @@ function ChatRoomCard({ title, description, slug }: Props) {
 	);
 }
 
-function ProjectCardSkeleton() {
+function ChatRoomCardSkeleton() {
 	return (
 		<Card>
 			<CardHeader>
@@ -42,6 +42,6 @@ function ProjectCardSkeleton() {
 	);
 }
 
-ChatRoomCard.Skeleton = ProjectCardSkeleton;
+ChatRoomCard.Skeleton = ChatRoomCardSkeleton;
 
 export { ChatRoomCard };
