@@ -6,7 +6,6 @@ import { useZodForm } from "@/lib/zod-form";
 import { AddChatMessageSchema, addChatMessageSchema } from "@/lib/validators";
 import { api } from "@/trpc/react";
 import { useParams } from "next/navigation";
-import { pusher } from "@/client/pusher";
 import { useChatRoom } from "@/context/chat-room-context";
 
 type Params = {
@@ -30,12 +29,7 @@ export function AddChatMessageForm() {
 	});
 
 	const onSubmit = (data: AddChatMessageSchema) => {
-		addChatMessage.mutate({
-			...data,
-			metaData: {
-				socketId: pusher.connection.socket_id,
-			},
-		});
+		addChatMessage.mutate(data);
 	};
 
 	return (

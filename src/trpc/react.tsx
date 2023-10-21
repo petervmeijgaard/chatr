@@ -7,6 +7,7 @@ import { useState, ReactNode } from "react";
 
 import { type AppRouter } from "@/server/api/root";
 import { getUrl, transformer } from "./shared";
+import { trpcHeaders } from "./headers";
 
 export const api = createTRPCReact<AppRouter>();
 
@@ -29,8 +30,11 @@ export function TRPCReactProvider(props: {
 					url: getUrl(),
 					headers() {
 						const heads = new Map(props.headers);
+						const customHeaders = new Map(trpcHeaders);
+
 						heads.set("x-trpc-source", "react");
-						return Object.fromEntries(heads);
+
+						return Object.fromEntries([...customHeaders, ...heads]);
 					},
 				}),
 			],

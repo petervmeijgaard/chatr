@@ -28,7 +28,7 @@ import {
 
 type CreateContextOptions = {
 	auth: SignedInAuthObject | SignedOutAuthObject | null;
-	apiKey?: string | null;
+	socketId: string | undefined;
 	req?: NextRequest;
 };
 
@@ -57,11 +57,11 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
  */
 export const createTRPCContext = (opts: { req: NextRequest }) => {
 	const auth = getAuth(opts.req);
-	const apiKey = opts.req.headers.get("x-acme-api-key");
+	const socketId = opts.req.headers.get("X-Socket-Id") ?? undefined;
 
 	return createInnerTRPCContext({
 		auth,
-		apiKey,
+		socketId,
 		req: opts.req,
 	});
 };

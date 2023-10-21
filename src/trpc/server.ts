@@ -7,6 +7,7 @@ import { headers } from "next/headers";
 
 import { type AppRouter } from "@/server/api/root";
 import { getUrl, transformer } from "./shared";
+import { trpcHeaders } from "@/trpc/headers";
 
 export const api = createTRPCProxyClient<AppRouter>({
 	transformer,
@@ -20,8 +21,11 @@ export const api = createTRPCProxyClient<AppRouter>({
 			url: getUrl(),
 			headers() {
 				const heads = new Map(headers());
+				const customHeaders = new Map(trpcHeaders);
+
 				heads.set("x-trpc-source", "rsc");
-				return Object.fromEntries(heads);
+
+				return Object.fromEntries([...heads, ...customHeaders]);
 			},
 		}),
 	],

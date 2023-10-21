@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button, ButtonWithLoader } from "@/components/ui/button";
 import { Trash } from "lucide-react";
-import { pusher } from "@/client/pusher";
 
 type Params = {
 	slug: string;
@@ -40,12 +39,7 @@ export function DeleteChatRoomAlertDialog() {
 	});
 
 	const onSubmit = (data: DeleteChatRoomSchema) => {
-		deleteChatRoom.mutate({
-			...data,
-			metaData: {
-				socketId: pusher.connection.socket_id,
-			},
-		});
+		deleteChatRoom.mutate(data);
 	};
 
 	return (

@@ -18,7 +18,7 @@ export const chatRoomRouter = createTRPCRouter({
 
 	addChatMessage: protectedProcedure
 		.input(addChatMessageSchema)
-		.mutation(async ({ ctx, input: { slug, message, metaData } }) => {
+		.mutation(async ({ ctx, input: { slug, message } }) => {
 			const room = await ctx.db.query.rooms.findFirst({
 				where: (rooms, { eq }) => eq(rooms.slug, slug),
 				columns: { id: true },
@@ -51,9 +51,7 @@ export const chatRoomRouter = createTRPCRouter({
 				`private-chat-room__${slug}`,
 				"new-chat-message",
 				insertedChatMessage,
-				{
-					socket_id: metaData?.socketId,
-				},
+				{ socket_id: ctx.socketId },
 			);
 
 			return insertedChatMessage;
@@ -61,7 +59,7 @@ export const chatRoomRouter = createTRPCRouter({
 
 	create: protectedProcedure
 		.input(createChatRoomSchema)
-		.mutation(async ({ ctx, input: { title, description, metaData } }) => {
+		.mutation(async ({ ctx, input: { title, description } }) => {
 			const { userId } = ctx.auth;
 			const slug = slugify(title);
 
@@ -71,7 +69,7 @@ export const chatRoomRouter = createTRPCRouter({
 				.returning();
 
 			await pusher.trigger("chat-rooms", "chat-room-created", newChatRoom, {
-				socket_id: metaData?.socketId,
+				socket_id: ctx.socketId,
 			});
 
 			return slug;
@@ -79,7 +77,7 @@ export const chatRoomRouter = createTRPCRouter({
 
 	delete: protectedProcedure
 		.input(deleteChatRoomSchema)
-		.mutation(async ({ ctx, input: { slug, metaData } }) => {
+		.mutation(async ({ ctx, input: { slug } }) => {
 			const room = await ctx.db.query.rooms.findFirst({
 				where: (rooms, { eq, and }) =>
 					and(eq(rooms.slug, slug), eq(rooms.userId, ctx.auth.userId)),
@@ -97,7 +95,7 @@ export const chatRoomRouter = createTRPCRouter({
 			await ctx.db.delete(rooms).where(eq(rooms.id, room.id));
 
 			await pusher.trigger("chat-rooms", "chat-room-deleted", room, {
-				socket_id: metaData?.socketId,
+				socket_id: ctx.socketId,
 			});
 		}),
 
