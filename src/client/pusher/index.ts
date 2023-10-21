@@ -1,3 +1,5 @@
+"use client";
+
 import Pusher from "pusher-js";
 import { env } from "@/env.mjs";
 
