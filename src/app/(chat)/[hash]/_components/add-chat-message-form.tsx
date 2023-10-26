@@ -44,7 +44,7 @@ export function AddChatMessageForm() {
 				placeholder="Enter your message..."
 				{...form.register("message")}
 			/>
-			<ButtonWithLoader type="submit" isLoading={addChatMessage.isLoading}>
+			<ButtonWithLoader type="submit" isLoading={addChatMessage.isPending}>
 				Submit
 			</ButtonWithLoader>
 		</form>
