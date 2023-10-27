@@ -5,7 +5,7 @@ import { ButtonWithLoader } from "@/components/ui/button";
 import { useZodForm } from "@/lib/zod-form";
 import { AddChatMessageSchema, addChatMessageSchema } from "@/lib/validators";
 import { api } from "@/trpc/react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useChatRoom } from "@/context/chat-room-context";
 
 type Params = {
@@ -15,6 +15,7 @@ type Params = {
 export function AddChatMessageForm() {
 	const { hash } = useParams<Params>();
 	const chatRoom = useChatRoom();
+	const router = useRouter();
 	const form = useZodForm({
 		schema: addChatMessageSchema,
 		defaultValues: { hash },
@@ -25,6 +26,7 @@ export function AddChatMessageForm() {
 			form.reset();
 
 			chatRoom.addMessage(newMessage);
+			router.refresh();
 		},
 	});
 
