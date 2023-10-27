@@ -19,7 +19,7 @@ export default async function Page() {
 					<SignedIn>
 						<CreateChatRoomDialog />
 
-						<UserButton afterSignOutUrl="/chat" />
+						<UserButton afterSignOutUrl="/" />
 					</SignedIn>
 				</div>
 			</header>

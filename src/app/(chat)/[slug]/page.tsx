@@ -35,7 +35,7 @@ export default async function ChatRoom({ params: { slug } }: Props) {
 						</Link>
 					</Button>
 					{userId === chatRoom.userId && <DeleteChatRoomAlertDialog />}
-					<UserButton afterSignOutUrl="/chat" />
+					<UserButton afterSignOutUrl="/" />
 				</div>
 			</header>
 			<div className="flex flex-1 flex-col">
