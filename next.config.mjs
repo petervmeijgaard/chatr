@@ -9,7 +9,6 @@ const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
 		typedRoutes: true,
-		serverActions: true,
 	},
 	eslint: {
 		// Do not lint during builds. This is being done in a separate GitHub Action
