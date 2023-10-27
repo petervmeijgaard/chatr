@@ -18,7 +18,7 @@ function ChatRoomCard({ title, description, slug }: Props) {
 			</CardHeader>
 			<CardContent>
 				<Button asChild>
-					<Link href={`/chat/${slug}`}>Join 5 others</Link>
+					<Link href={`/${slug}`}>Join 5 others</Link>
 				</Button>
 			</CardContent>
 		</Card>

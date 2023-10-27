@@ -25,7 +25,7 @@ export function CreateChatRoomDialog() {
 
 	const createChatRoom = api.chatRoom.create.useMutation({
 		onSuccess(slug) {
-			router.push(`/chat/${slug}`);
+			router.push(`/${slug}`);
 			router.refresh();
 		},
 	});
