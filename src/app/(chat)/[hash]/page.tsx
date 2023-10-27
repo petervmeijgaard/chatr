@@ -12,17 +12,17 @@ import { ChatRoomProvider } from "@/context/chat-room-context";
 
 type Props = {
 	params: {
-		slug: string;
+		hash: string;
 	};
 };
 
-export default async function ChatRoom({ params: { slug } }: Props) {
+export default async function ChatRoom({ params: { hash } }: Props) {
 	const { userId } = auth();
 
-	const chatRoom = await api.chatRoom.getBySlug.query({ slug });
+	const chatRoom = await api.chatRoom.getByhash.query({ hash });
 
 	return (
-		<ChatRoomProvider slug={slug} messages={chatRoom.messages}>
+		<ChatRoomProvider hash={hash} messages={chatRoom.messages}>
 			<header className="flex flex-row place-content-between">
 				<h1 className="text-3xl font-bold">
 					Welcome to chatroom {`"${chatRoom.title}"`}

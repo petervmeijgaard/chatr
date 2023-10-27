@@ -24,8 +24,8 @@ export function CreateChatRoomDialog() {
 	});
 
 	const createChatRoom = api.chatRoom.create.useMutation({
-		onSuccess(slug) {
-			router.push(`/${slug}`);
+		onSuccess(hash) {
+			router.push(`/${hash}`);
 			router.refresh();
 		},
 	});

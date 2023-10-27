@@ -1,7 +1,6 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { slugify } from "@/lib/utils";
 import { messages, rooms } from "@/server/db/schema";
 import {
 	addChatMessageSchema,
@@ -10,6 +9,7 @@ import {
 } from "@/lib/validators";
 import { eq } from "drizzle-orm";
 import { pusher } from "@/server/pusher";
+import { generateRandomString } from "@/lib/utils";
 
 export const chatRoomRouter = createTRPCRouter({
 	listChatRooms: publicProcedure.query(async ({ ctx }) => {
@@ -18,9 +18,9 @@ export const chatRoomRouter = createTRPCRouter({
 
 	addChatMessage: protectedProcedure
 		.input(addChatMessageSchema)
-		.mutation(async ({ ctx, input: { slug, message } }) => {
+		.mutation(async ({ ctx, input: { hash, message } }) => {
 			const room = await ctx.db.query.rooms.findFirst({
-				where: (rooms, { eq }) => eq(rooms.slug, slug),
+				where: (rooms, { eq }) => eq(rooms.hash, hash),
 				columns: { id: true },
 			});
 
@@ -48,7 +48,7 @@ export const chatRoomRouter = createTRPCRouter({
 			}
 
 			await pusher.trigger(
-				`private-chat-room__${slug}`,
+				`private-chat-room__${hash}`,
 				"new-chat-message",
 				insertedChatMessage,
 				{ socket_id: ctx.socketId },
@@ -61,26 +61,27 @@ export const chatRoomRouter = createTRPCRouter({
 		.input(createChatRoomSchema)
 		.mutation(async ({ ctx, input: { title, description } }) => {
 			const { userId } = ctx.auth;
-			const slug = slugify(title);
+
+			const hash = generateRandomString(10);
 
 			const [newChatRoom] = await ctx.db
 				.insert(rooms)
-				.values({ slug, title, description, userId })
+				.values({ hash, title, description, userId })
 				.returning();
 
 			await pusher.trigger("chat-rooms", "chat-room-created", newChatRoom, {
 				socket_id: ctx.socketId,
 			});
 
-			return slug;
+			return hash;
 		}),
 
 	delete: protectedProcedure
 		.input(deleteChatRoomSchema)
-		.mutation(async ({ ctx, input: { slug } }) => {
+		.mutation(async ({ ctx, input: { hash } }) => {
 			const room = await ctx.db.query.rooms.findFirst({
 				where: (rooms, { eq, and }) =>
-					and(eq(rooms.slug, slug), eq(rooms.userId, ctx.auth.userId)),
+					and(eq(rooms.hash, hash), eq(rooms.userId, ctx.auth.userId)),
 				columns: { id: true },
 			});
 
@@ -98,11 +99,11 @@ export const chatRoomRouter = createTRPCRouter({
 			});
 		}),
 
-	getBySlug: protectedProcedure
-		.input(z.object({ slug: z.string() }))
-		.query(async ({ ctx, input: { slug } }) => {
+	getByhash: protectedProcedure
+		.input(z.object({ hash: z.string() }))
+		.query(async ({ ctx, input: { hash } }) => {
 			const chatRoom = await ctx.db.query.rooms.findFirst({
-				where: (rooms, { eq }) => eq(rooms.slug, slug),
+				where: (rooms, { eq }) => eq(rooms.hash, hash),
 				with: {
 					messages: true,
 				},

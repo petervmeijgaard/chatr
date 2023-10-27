@@ -21,13 +21,13 @@ const ChatRoomContext = createContext<ChatRoomContextType>(
 );
 
 type Props = PropsWithChildren<{
-	slug: string;
+	hash: string;
 	messages: Array<Message>;
 }>;
 
 export function ChatRoomProvider({
 	children,
-	slug,
+	hash,
 	messages: initialState,
 }: Props) {
 	const [messages, setMessages] = useState(initialState);
@@ -36,7 +36,7 @@ export function ChatRoomProvider({
 		setMessages((curr) => [...curr, newMessage]);
 	}, []);
 
-	const channel = usePrivateChannel(`chat-room__${slug}`);
+	const channel = usePrivateChannel(`chat-room__${hash}`);
 
 	useEvent(channel, "new-chat-message", addMessage);
 

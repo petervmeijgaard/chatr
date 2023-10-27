@@ -20,15 +20,15 @@ import { Button, ButtonWithLoader } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 
 type Params = {
-	slug: string;
+	hash: string;
 };
 
 export function DeleteChatRoomAlertDialog() {
-	const { slug } = useParams<Params>();
+	const { hash } = useParams<Params>();
 	const router = useRouter();
 	const form = useZodForm({
 		schema: deleteChatRoomSchema,
-		defaultValues: { slug },
+		defaultValues: { hash },
 	});
 
 	const deleteChatRoom = api.chatRoom.delete.useMutation({
@@ -62,7 +62,7 @@ export function DeleteChatRoomAlertDialog() {
 					<AlertDialogCancel>Cancel</AlertDialogCancel>
 
 					<form onSubmit={form.handleSubmit(onSubmit)}>
-						<Input type="hidden" {...form.register("slug")} />
+						<Input type="hidden" {...form.register("hash")} />
 						<AlertDialogAction asChild>
 							<ButtonWithLoader
 								type="submit"

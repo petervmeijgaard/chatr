@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Room as Props } from "@/server/db/schema";
 
-function ChatRoomCard({ title, description, slug }: Props) {
+function ChatRoomCard({ title, description, hash }: Props) {
 	return (
 		<Card>
 			<CardHeader>
@@ -18,7 +18,7 @@ function ChatRoomCard({ title, description, slug }: Props) {
 			</CardHeader>
 			<CardContent>
 				<Button asChild>
-					<Link href={`/${slug}`}>Join 5 others</Link>
+					<Link href={`/${hash}`}>Join 5 others</Link>
 				</Button>
 			</CardContent>
 		</Card>

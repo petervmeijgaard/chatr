@@ -1,14 +1,14 @@
 import { z } from "zod";
 
 export const addChatMessageSchema = z.object({
-	slug: z.string(),
+	hash: z.string(),
 	message: z.string().trim().min(1),
 });
 
 export type AddChatMessageSchema = z.infer<typeof addChatMessageSchema>;
 
 export const deleteChatRoomSchema = z.object({
-	slug: z.string(),
+	hash: z.string(),
 });
 
 export type DeleteChatRoomSchema = z.infer<typeof deleteChatRoomSchema>;

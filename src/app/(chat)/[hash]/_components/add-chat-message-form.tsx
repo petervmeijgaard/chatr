@@ -9,15 +9,15 @@ import { useParams } from "next/navigation";
 import { useChatRoom } from "@/context/chat-room-context";
 
 type Params = {
-	slug: string;
+	hash: string;
 };
 
 export function AddChatMessageForm() {
-	const { slug } = useParams<Params>();
+	const { hash } = useParams<Params>();
 	const chatRoom = useChatRoom();
 	const form = useZodForm({
 		schema: addChatMessageSchema,
-		defaultValues: { slug },
+		defaultValues: { hash },
 	});
 
 	const addChatMessage = api.chatRoom.addChatMessage.useMutation({
@@ -37,7 +37,7 @@ export function AddChatMessageForm() {
 			className="flex flex-row items-start gap-2 rounded rounded-t-none border p-4"
 			onSubmit={form.handleSubmit(onSubmit)}
 		>
-			<input type="hidden" {...form.register("slug")} />
+			<input type="hidden" {...form.register("hash")} />
 			<Input
 				placeholder="Enter your message..."
 				{...form.register("message")}

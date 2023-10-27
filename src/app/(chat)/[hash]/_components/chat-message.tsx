@@ -3,7 +3,7 @@
 import { RouterOutputs } from "@/trpc/shared";
 import { useAuth } from "@clerk/nextjs";
 
-type Props = RouterOutputs["chatRoom"]["getBySlug"]["messages"][number];
+type Props = RouterOutputs["chatRoom"]["getByhash"]["messages"][number];
 
 export function ChatMessage({ content, userId }: Props) {
 	const currentUser = useAuth();

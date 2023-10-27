@@ -7,11 +7,11 @@ export const rooms = sqliteTable(
 		id: integer("id").primaryKey(),
 		title: text("title").notNull(),
 		description: text("description"),
-		slug: text("slug").notNull().unique(),
+		hash: text("hash").notNull().unique(),
 		userId: text("user_id").notNull(),
 	},
 	(table) => ({
-		slugIndex: index("slug_idx").on(table.slug),
+		hashIndex: index("hash_idx").on(table.hash),
 	}),
 );
 
