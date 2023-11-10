@@ -67,7 +67,7 @@ export function CreateChatRoomDialog() {
 							{...form.register("description")}
 						/>
 					</div>
-					<ButtonWithLoader type="submit" isLoading={createChatRoom.isLoading}>
+					<ButtonWithLoader type="submit" isLoading={createChatRoom.isPending}>
 						Save changes
 					</ButtonWithLoader>
 				</form>

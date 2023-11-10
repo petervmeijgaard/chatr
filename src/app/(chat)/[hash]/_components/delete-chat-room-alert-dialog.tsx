@@ -66,7 +66,7 @@ export function DeleteChatRoomAlertDialog() {
 						<AlertDialogAction asChild>
 							<ButtonWithLoader
 								type="submit"
-								isLoading={deleteChatRoom.isLoading}
+								isLoading={deleteChatRoom.isPending}
 							>
 								Continue
 							</ButtonWithLoader>
