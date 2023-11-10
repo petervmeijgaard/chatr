@@ -66,11 +66,11 @@ dependencies:
     specifier: ^16.3.1
     version: 16.3.1
   drizzle-orm:
-    specifier: ^0.28.6
-    version: 0.28.6(@libsql/client@0.3.6)(better-sqlite3@9.1.1)
+    specifier: ^0.29.0
+    version: 0.29.0(@libsql/client@0.3.6)(better-sqlite3@9.1.1)
   drizzle-zod:
     specifier: ^0.5.1
-    version: 0.5.1(drizzle-orm@0.28.6)(zod@3.22.4)
+    version: 0.5.1(drizzle-orm@0.29.0)(zod@3.22.4)
   encoding:
     specifier: ^0.1.13
     version: 0.1.13
@@ -2587,8 +2587,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /drizzle-orm@0.28.6(@libsql/client@0.3.6)(better-sqlite3@9.1.1):
-    resolution: {integrity: sha512-yBe+F9htrlYER7uXgDJUQsTHFoIrI5yMm5A0bg0GiZ/kY5jNXTWoEy4KQtg35cE27sw1VbgzoMWHAgCckUUUww==}
+  /drizzle-orm@0.29.0(@libsql/client@0.3.6)(better-sqlite3@9.1.1):
+    resolution: {integrity: sha512-AC+CuW4GezVjsZDGU9u9B4HyikudOyYVhjm6he3Xn1D6Kky7bHGKob97MMX2piO+t9b6UuajLzlii/T/lu1qwA==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
@@ -2653,13 +2653,13 @@ packages:
       better-sqlite3: 9.1.1
     dev: false
 
-  /drizzle-zod@0.5.1(drizzle-orm@0.28.6)(zod@3.22.4):
+  /drizzle-zod@0.5.1(drizzle-orm@0.29.0)(zod@3.22.4):
     resolution: {integrity: sha512-C/8bvzUH/zSnVfwdSibOgFjLhtDtbKYmkbPbUCq46QZyZCH6kODIMSOgZ8R7rVjoI+tCj3k06MRJMDqsIeoS4A==}
     peerDependencies:
       drizzle-orm: '>=0.23.13'
       zod: '*'
     dependencies:
-      drizzle-orm: 0.28.6(@libsql/client@0.3.6)(better-sqlite3@9.1.1)
+      drizzle-orm: 0.29.0(@libsql/client@0.3.6)(better-sqlite3@9.1.1)
       zod: 3.22.4
     dev: false
 
