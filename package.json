@@ -28,7 +28,7 @@
 		"@trpc/react-query": "^10.45.2",
 		"@trpc/server": "^10.45.2",
 		"@vivid-web/pusher-react": "^0.1.3",
-		"better-sqlite3": "^9.1.1",
+		"better-sqlite3": "^9.6.0",
 		"class-variance-authority": "^0.7.0",
 		"classnames": "^2.3.2",
 		"clsx": "^2.0.0",
