@@ -9,8 +9,8 @@ dependencies:
     specifier: ^4.27.1
     version: 4.27.1(next@14.2.5)(react-dom@18.2.0)(react@18.2.0)
   '@hookform/resolvers':
-    specifier: ^3.3.2
-    version: 3.3.2(react-hook-form@7.48.2)
+    specifier: ^3.9.0
+    version: 3.9.0(react-hook-form@7.48.2)
   '@libsql/client':
     specifier: ^0.3.6
     version: 0.3.6(encoding@0.1.13)
@@ -781,8 +781,8 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
-  /@hookform/resolvers@3.3.2(react-hook-form@7.48.2):
-    resolution: {integrity: sha512-Tw+GGPnBp+5DOsSg4ek3LCPgkBOuOgS5DsDV7qsWNH9LZc433kgsWICjlsh2J9p04H2K66hsXPPb9qn9ILdUtA==}
+  /@hookform/resolvers@3.9.0(react-hook-form@7.48.2):
+    resolution: {integrity: sha512-bU0Gr4EepJ/EQsH/IwEzYLsT/PEj5C0ynLQ4m+GSHS+xKH4TfSelhluTgOaoc4kA5s7eCsQbM4wvZLzELmWzUg==}
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
